@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 train predict visualization
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -79,6 +79,17 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+## Run the training process: make ARGS="--x=2..." train
+train: test_environment
+	python src/models/train_model.py ${ARGS}
+
+## Predict using the trained model
+predict: test_environment
+	python src/models/predict_model.py ${ARGS}
+
+## Create visualization data
+visualization: test_environment
+	python src/visualization/visualize.py ${ARGS}
 
 
 #################################################################################
