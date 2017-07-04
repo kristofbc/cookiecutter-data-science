@@ -10,10 +10,10 @@ PROFILE = {{ cookiecutter.aws_profile }}
 PROJECT_NAME = {{ cookiecutter.repo_name }}
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
+ifeq (,$(shell which pyenv))
+HAS_PYENV=False
 else
-HAS_CONDA=True
+HAS_PYENV=True
 endif
 
 #################################################################################
@@ -54,14 +54,15 @@ endif
 
 ## Set up python interpreter environment
 create_environment:
-ifeq (True,$(HAS_CONDA))
-		@echo ">>> Detected conda, creating conda environment."
+ifeq (True,$(HAS_PYENV))
+	echo ">>> Detected Pyenv, creating virtualenv environment."
 ifeq (3,$(findstring 3,$(PYTHON_INTERPRETER)))
-	conda create --name $(PROJECT_NAME) python=3
+	pyenv virtualenv 3.5.0 $(PROJECT_NAME)
 else
-	conda create --name $(PROJECT_NAME) python=2.7
+	pyenv virtualenv 2.7.11 $(PROJECT_NAME)
 endif
-		@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
+	@echo ">>> New Pyenv virtualenv created. Activate with:\npyenv activate $(PROJECT_NAME)"
+	@echo ">>> If you want to set a local-specific Python version, create it with:\npyenv local $(PROJECT_NAME)"
 else
 	@pip install -q virtualenv virtualenvwrapper
 	@echo ">>> Installing virtualenvwrapper if not already intalled.\nMake sure the following lines are in shell startup file\n\
