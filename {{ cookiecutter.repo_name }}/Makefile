@@ -80,16 +80,16 @@ test_environment:
 #################################################################################
 
 ## Run the training process: make ARGS="--x=2..." train
-train: test_environment
-	python src/models/train_model.py ${ARGS}
+train: requirements
+	$(PYTHON_INTERPRETER) src/models/train_model.py ${ARGS}
 
 ## Predict using the trained model
-predict: test_environment
-	python src/models/predict_model.py ${ARGS}
+predict: requirements
+	$(PYTHON_INTERPRETER) src/models/predict_model.py ${ARGS}
 
 ## Create visualization data
-visualization: test_environment
-	python src/visualization/visualize.py ${ARGS}
+visualization: requirements
+	$(PYTHON_INTERPRETER) src/visualization/visualize.py ${ARGS}
 
 
 #################################################################################
